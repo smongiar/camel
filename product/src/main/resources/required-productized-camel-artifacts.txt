@@ -45,6 +45,7 @@ camel-dependencies-generator
 camel-direct
 camel-dsl-support
 camel-elasticsearch
+camel-elasticsearch-rest-client
 camel-endpointdsl
 camel-endpointdsl-support
 camel-fhir
@@ -53,10 +54,12 @@ camel-flink
 camel-ftp
 camel-google-bigquery
 camel-google-pubsub
+camel-graphql
 camel-groovy
 camel-grpc
 camel-gson
 camel-hl7
+camel-hashicorp-vault
 camel-http
 camel-http-common
 camel-infinispan
@@ -72,6 +75,7 @@ camel-jdbc
 camel-jira
 camel-jms
 camel-jpa
+camel-jq
 camel-jslt
 camel-jsonpath
 camel-jta

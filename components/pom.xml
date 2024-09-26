@@ -124,7 +124,7 @@
         <!-- <module>camel-dynamic-router</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <!-- <module>camel-ehcache</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <module>camel-elasticsearch</module>
-        <!-- <module>camel-elasticsearch-rest-client</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
+        <module>camel-elasticsearch-rest-client</module>
         <!-- <module>camel-elytron</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <!-- <module>camel-etcd3</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <!-- <module>camel-exec</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
@@ -141,12 +141,12 @@
         <!-- <module>camel-github</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <module>camel-google</module>
         <!-- <module>camel-grape</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
-        <!-- <module>camel-graphql</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
+        <module>camel-graphql</module>
         <!-- <module>camel-grok</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <module>camel-grpc</module>
         <module>camel-gson</module>
         <!-- <module>camel-guava-eventbus</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
-        <!-- <module>camel-hashicorp-vault</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
+        <module>camel-hashicorp-vault</module>
         <!-- <module>camel-hazelcast</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <!-- <module>camel-headersmap</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <module>camel-hl7</module>
@@ -178,7 +178,7 @@
         <!-- <module>camel-jolt</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <module>camel-joor</module>
         <module>camel-jpa</module>
-        <!-- <module>camel-jq</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
+        <module>camel-jq</module>
         <!-- <module>camel-jsch</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
         <module>camel-jslt</module>
         <!-- <module>camel-json-validator</module> disabled by cq-prod-maven-plugin:camel-prod-excludes -->
