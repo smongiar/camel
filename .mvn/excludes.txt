@@ -97,7 +97,6 @@
 :camel-dropbox
 :camel-dynamic-router
 :camel-ehcache
-:camel-elasticsearch-rest-client
 :camel-elytron
 :camel-enforcer-rules
 :camel-etc
@@ -120,14 +119,12 @@
 :camel-google-sheets
 :camel-google-storage
 :camel-grape
-:camel-graphql
 :camel-grok
 :camel-groovy-dsl
 :camel-groovy-dsl-common
 :camel-groovy-dsl-parent
 :camel-groovy-dsl-test
 :camel-guava-eventbus
-:camel-hashicorp-vault
 :camel-hazelcast
 :camel-headersmap
 :camel-huawei-parent
@@ -165,7 +162,6 @@
 :camel-jmx
 :camel-jolt
 :camel-jooq
-:camel-jq
 :camel-js-dsl
 :camel-jsch
 :camel-jsh-dsl
