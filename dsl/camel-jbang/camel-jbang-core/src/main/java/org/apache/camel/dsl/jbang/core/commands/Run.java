@@ -137,6 +137,14 @@ public class Run extends CamelCommand {
     @Option(names = { "--kamelets-version" }, description = "Apache Camel Kamelets version")
     String kameletsVersion;
 
+    @CommandLine.Option(names = { "--quarkus-group-id" }, description = "Quarkus Platform Maven groupId",
+                        defaultValue = "io.quarkus.platform")
+    String quarkusGroupId = "io.quarkus.platform";
+
+    @CommandLine.Option(names = { "--quarkus-artifact-id" }, description = "Quarkus Platform Maven artifactId",
+                        defaultValue = "quarkus-bom")
+    String quarkusArtifactId = "quarkus-bom";
+
     @Option(names = { "--quarkus-version" }, description = "Quarkus Platform version",
             defaultValue = RuntimeType.QUARKUS_VERSION)
     String quarkusVersion = RuntimeType.QUARKUS_VERSION;
@@ -153,8 +161,9 @@ public class Run extends CamelCommand {
             split = ",")
     List<String> dependencies = new ArrayList<>();
 
-    @CommandLine.Option(names = { "--repository" }, description = "Additional maven repositories")
-    List<String> repositories = new ArrayList<>();
+    @CommandLine.Option(names = { "--repos" },
+                        description = "Additional maven repositories (Use commas to separate multiple repositories)")
+    String repositories;
 
     @Option(names = { "--gav" }, description = "The Maven group:artifact:version (used during exporting)")
     String gav;
@@ -482,7 +491,9 @@ public class Run extends CamelCommand {
 
         final KameletMain main = createMainInstance();
         main.setProfile(profile);
-        main.setRepositories(String.join(",", repositories));
+        if (repositories != null && !repositories.isBlank()) {
+            main.setRepositories(String.join(",", repositories));
+        }
         main.setDownload(download);
         main.setFresh(fresh);
         main.setMavenSettings(mavenSettings);
@@ -539,7 +550,7 @@ public class Run extends CamelCommand {
             writeSetting(main, profileProperties, "camel.jbang.gav", gav);
         }
         writeSetting(main, profileProperties, "camel.jbang.open-api", openapi);
-        writeSetting(main, profileProperties, "camel.jbang.repositories", String.join(",", repositories));
+        writeSetting(main, profileProperties, "camel.jbang.repos", String.join(",", repositories));
         writeSetting(main, profileProperties, "camel.jbang.health", health ? "true" : "false");
         writeSetting(main, profileProperties, "camel.jbang.metrics", metrics ? "true" : "false");
         writeSetting(main, profileProperties, "camel.jbang.console", console ? "true" : "false");
@@ -548,6 +559,8 @@ public class Run extends CamelCommand {
         writeSetting(main, profileProperties, "camel.jbang.camel-version", new DefaultCamelCatalog().getCatalogVersion());
         writeSetting(main, profileProperties, "camel.jbang.springBootVersion", springBootVersion);
         writeSetting(main, profileProperties, "camel.jbang.quarkusVersion", quarkusVersion);
+        writeSetting(main, profileProperties, "camel.jbang.quarkusGroupId", quarkusGroupId);
+        writeSetting(main, profileProperties, "camel.jbang.quarkusArtifactId", quarkusArtifactId);
 
         // command line arguments
         if (property != null) {
@@ -872,6 +885,8 @@ public class Run extends CamelCommand {
         eq.mavenWrapper = true;
         eq.gradleWrapper = false;
         eq.quarkusVersion = this.quarkusVersion;
+        eq.quarkusGroupId = this.quarkusGroupId;
+        eq.quarkusArtifactId = this.quarkusArtifactId;
         eq.camelVersion = this.camelVersion;
         eq.kameletsVersion = this.kameletsVersion;
         eq.exportDir = runDir.toString();
@@ -1097,7 +1112,7 @@ public class Run extends CamelCommand {
                     = "true".equals(answer.getProperty("loggingColor", loggingColor ? "true" : "false"));
             loggingJson
                     = "true".equals(answer.getProperty("loggingJson", loggingJson ? "true" : "false"));
-            repositories = RuntimeUtil.getCommaSeparatedPropertyAsList(answer, "camel.jbang.repositories", repositories);
+            repositories = answer.getProperty("camel.jbang.repos", repositories);
             mavenSettings = answer.getProperty("camel.jbang.maven-settings", mavenSettings);
             mavenSettingsSecurity = answer.getProperty("camel.jbang.maven-settings-security", mavenSettingsSecurity);
             mavenCentralEnabled = "true"
@@ -1111,6 +1126,8 @@ public class Run extends CamelCommand {
             camelVersion = answer.getProperty("camel.jbang.camel-version", camelVersion);
             kameletsVersion = answer.getProperty("camel.jbang.kameletsVersion", kameletsVersion);
             springBootVersion = answer.getProperty("camel.jbang.springBootVersion", springBootVersion);
+            quarkusGroupId = answer.getProperty("camel.jbang.quarkusGroupId", quarkusGroupId);
+            quarkusArtifactId = answer.getProperty("camel.jbang.quarkusArtifactId", quarkusArtifactId);
             quarkusVersion = answer.getProperty("camel.jbang.quarkusVersion", quarkusVersion);
             gav = answer.getProperty("camel.jbang.gav", gav);
             stub = answer.getProperty("camel.jbang.stub", stub);

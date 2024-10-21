@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 
@@ -36,6 +37,7 @@ import org.apache.camel.tooling.model.ArtifactModel;
 import org.apache.camel.util.CamelCaseOrderedProperties;
 import org.apache.camel.util.FileUtil;
 import org.apache.camel.util.IOHelper;
+import org.apache.camel.util.ObjectHelper;
 import org.apache.commons.io.FileUtils;
 
 class ExportSpringBoot extends Export {
@@ -97,9 +99,7 @@ class ExportSpringBoot extends Export {
         File srcResourcesDir = new File(BUILD_DIR, "src/main/resources");
         srcResourcesDir.mkdirs();
         File srcCamelResourcesDir = new File(BUILD_DIR, "src/main/resources/camel");
-        srcCamelResourcesDir.mkdirs();
         File srcKameletsResourcesDir = new File(BUILD_DIR, "src/main/resources/kamelets");
-        srcKameletsResourcesDir.mkdirs();
         // copy application properties files
         copyApplicationPropertiesFiles(srcResourcesDir);
 
@@ -158,6 +158,12 @@ class ExportSpringBoot extends Export {
         String repos = getMavenRepositories(settings, prop, camelSpringBootVersion);
 
         CamelCatalog catalog = CatalogLoader.loadSpringBootCatalog(repos, camelSpringBootVersion);
+        if (ObjectHelper.isEmpty(camelVersion)) {
+            camelVersion = catalog.getLoadedVersion();
+        }
+        if (ObjectHelper.isEmpty(camelVersion)) {
+            camelVersion = VersionHelper.extractCamelVersion();
+        }
 
         // First try to load a specialized template from the catalog, if the catalog does not provide it
         // fallback to the template defined in camel-jbang-core
@@ -169,19 +175,14 @@ class ExportSpringBoot extends Export {
             context = readResourceTemplate("templates/" + pomTemplateName);
         }
 
-        String camelVersion = catalog.getLoadedVersion();
-
         context = context.replaceAll("\\{\\{ \\.GroupId }}", ids[0]);
         context = context.replaceAll("\\{\\{ \\.ArtifactId }}", ids[1]);
         context = context.replaceAll("\\{\\{ \\.Version }}", ids[2]);
         context = context.replaceAll("\\{\\{ \\.SpringBootVersion }}", springBootVersion);
         context = context.replaceAll("\\{\\{ \\.JavaVersion }}", javaVersion);
         context = context.replaceAll("\\{\\{ \\.CamelVersion }}", camelVersion);
-        if (camelSpringBootVersion != null) {
-            context = context.replaceAll("\\{\\{ \\.CamelSpringBootVersion }}", camelSpringBootVersion);
-        } else {
-            context = context.replaceAll("\\{\\{ \\.CamelSpringBootVersion }}", camelVersion);
-        }
+        context = context.replaceAll("\\{\\{ \\.CamelSpringBootVersion }}",
+                Objects.requireNonNullElseGet(camelSpringBootVersion, () -> camelVersion));
 
         context = replaceBuildProperties(context);
 
@@ -343,7 +344,8 @@ class ExportSpringBoot extends Export {
         // remove out of the box dependencies
         answer.removeIf(s -> s.contains("camel-core"));
 
-        if (openapi != null) {
+        boolean http = answer.stream().anyMatch(s -> s.contains("mvn:org.apache.camel:camel-platform-http"));
+        if (hasOpenapi(answer) && !http) {
             // include http server if using openapi
             answer.add("mvn:org.apache.camel:camel-platform-http");
         }

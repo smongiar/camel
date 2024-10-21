@@ -28,10 +28,12 @@ import org.apache.camel.catalog.CamelCatalog;
 import org.apache.camel.catalog.DefaultCamelCatalog;
 import org.apache.camel.dsl.jbang.core.common.CommandLineHelper;
 import org.apache.camel.dsl.jbang.core.common.RuntimeUtil;
+import org.apache.camel.dsl.jbang.core.common.VersionHelper;
 import org.apache.camel.tooling.maven.MavenGav;
 import org.apache.camel.util.CamelCaseOrderedProperties;
 import org.apache.camel.util.FileUtil;
 import org.apache.camel.util.IOHelper;
+import org.apache.camel.util.ObjectHelper;
 import org.apache.commons.io.FileUtils;
 
 class ExportCamelMain extends Export {
@@ -56,8 +58,6 @@ class ExportCamelMain extends Export {
             System.err.println("--build-tool=gradle is not support yet for camel-main runtime.");
         }
 
-        File profile = new File("application.properties");
-
         // the settings file has information what to export
         File settings = new File(CommandLineHelper.getWorkDir(), Run.RUN_SETTINGS_FILE);
         if (fresh || !files.isEmpty() || !settings.exists()) {
@@ -79,10 +79,15 @@ class ExportCamelMain extends Export {
             printer().println("Exporting as Camel Main project to: " + exportDir);
         }
 
+        File profile = new File("application.properties");
+
         // use a temporary work dir
         File buildDir = new File(BUILD_DIR);
         FileUtil.removeDir(buildDir);
         buildDir.mkdirs();
+
+        // gather dependencies
+        Set<String> deps = resolveDependencies(settings, profile);
 
         // compute source folders
         File srcJavaDirRoot = new File(BUILD_DIR, "src/main/java");
@@ -97,9 +102,7 @@ class ExportCamelMain extends Export {
         File srcResourcesDir = new File(BUILD_DIR, "src/main/resources");
         srcResourcesDir.mkdirs();
         File srcCamelResourcesDir = new File(BUILD_DIR, "src/main/resources/camel");
-        srcCamelResourcesDir.mkdirs();
         File srcKameletsResourcesDir = new File(BUILD_DIR, "src/main/resources/kamelets");
-        srcKameletsResourcesDir.mkdirs();
         // copy application properties files
         copyApplicationPropertiesFiles(srcResourcesDir);
         // copy source files
@@ -117,6 +120,9 @@ class ExportCamelMain extends Export {
             }
             // are we using http then enable embedded HTTP server (if not explicit configured already)
             int port = httpServerPort(settings);
+            if (port == -1 && deps.stream().anyMatch(d -> d.contains("camel-platform-http") || d.contains("camel-rest"))) {
+                port = 8080;
+            }
             if (port != -1 && !prop.containsKey("camel.server.enabled")) {
                 prop.put("camel.server.enabled", "true");
                 if (port != 8080 && !prop.containsKey("camel.server.port")) {
@@ -130,8 +136,6 @@ class ExportCamelMain extends Export {
         });
         // create main class
         createMainClassSource(srcJavaDir, srcPackageName, mainClassname);
-        // gather dependencies
-        Set<String> deps = resolveDependencies(settings, profile);
         // copy local lib JARs
         copyLocalLibDependencies(deps);
         // copy agent JARs and remove as dependency
@@ -161,9 +165,12 @@ class ExportCamelMain extends Export {
         String context = IOHelper.loadText(is);
         IOHelper.close(is);
 
-        if (camelVersion == null) {
-            CamelCatalog catalog = new DefaultCamelCatalog();
-            camelVersion = catalog.getCatalogVersion();
+        CamelCatalog catalog = new DefaultCamelCatalog();
+        if (ObjectHelper.isEmpty(camelVersion)) {
+            camelVersion = catalog.getLoadedVersion();
+        }
+        if (ObjectHelper.isEmpty(camelVersion)) {
+            camelVersion = VersionHelper.extractCamelVersion();
         }
 
         context = context.replaceAll("\\{\\{ \\.GroupId }}", ids[0]);
@@ -336,30 +343,22 @@ class ExportCamelMain extends Export {
         answer.removeIf(s -> s.contains("camel-main"));
         answer.removeIf(s -> s.contains("camel-health"));
 
-        if (openapi != null) {
+        boolean main = answer.stream().anyMatch(s -> s.contains("mvn:org.apache.camel:camel-platform-http-main"));
+        if (hasOpenapi(answer) && !main) {
             // include http server if using openapi
             answer.add("mvn:org.apache.camel:camel-platform-http-main");
         }
-
         // if platform-http is included then we need to switch to use camel-platform-http-main as implementation
-        if (answer.stream().anyMatch(s -> s.contains("camel-platform-http") && !s.contains("camel-platform-http-main"))) {
+        if (!main && answer.stream().anyMatch(s -> s.contains("camel-platform-http"))) {
+            answer.add("mvn:org.apache.camel:camel-platform-http-main");
+            main = true;
+        }
+        if (main) {
             answer.removeIf(s -> s.contains("org.apache.camel:camel-platform-http:"));
             answer.removeIf(s -> s.contains("org.apache.camel:camel-platform-http-vertx:"));
-            // version does not matter
-            answer.add("mvn:org.apache.camel:camel-platform-http-main:1.0-SNAPSHOT");
         }
 
         return answer;
-    }
-
-    @Override
-    protected void prepareApplicationProperties(Properties properties) {
-        if (openapi != null) {
-            // enable http server if not explicit configured
-            if (properties.getProperty("camel.server.enabled") == null) {
-                properties.setProperty("camel.server.enabled", "true");
-            }
-        }
     }
 
     private void createMainClassSource(File srcJavaDir, String packageName, String mainClassname) throws Exception {
