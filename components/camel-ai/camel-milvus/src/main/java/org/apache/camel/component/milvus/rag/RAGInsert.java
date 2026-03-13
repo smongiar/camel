@@ -1,0 +1,84 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.apache.camel.component.milvus.rag;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import io.milvus.param.dml.InsertParam;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
+import org.apache.camel.component.milvus.MilvusAction;
+import org.apache.camel.component.milvus.MilvusHeaders;
+
+public class RAGInsert implements Processor {
+
+    private String collectionName = "rag_collection";
+    private String vectorFieldName = "embedding";
+    private String textFieldMappings = "content=text";
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void process(Exchange exchange) throws Exception {
+        List<Float> vector = exchange.getIn().getBody(List.class);
+
+        List<InsertParam.Field> fields = new ArrayList<>();
+
+        for (String mapping : textFieldMappings.split(",")) {
+            String[] pair = mapping.trim().split("=");
+            String fieldName = pair[0].trim();
+            String variableName = pair[1].trim();
+            String value = exchange.getVariable(variableName, String.class);
+            fields.add(new InsertParam.Field(fieldName, Collections.singletonList(value)));
+        }
+
+        fields.add(new InsertParam.Field(vectorFieldName, Collections.singletonList(vector)));
+
+        InsertParam param = InsertParam.newBuilder()
+                .withCollectionName(collectionName)
+                .withFields(fields)
+                .build();
+
+        exchange.getIn().setBody(param);
+        exchange.getIn().setHeader(MilvusHeaders.ACTION, MilvusAction.INSERT);
+    }
+
+    public String getCollectionName() {
+        return collectionName;
+    }
+
+    public void setCollectionName(String collectionName) {
+        this.collectionName = collectionName;
+    }
+
+    public String getVectorFieldName() {
+        return vectorFieldName;
+    }
+
+    public void setVectorFieldName(String vectorFieldName) {
+        this.vectorFieldName = vectorFieldName;
+    }
+
+    public String getTextFieldMappings() {
+        return textFieldMappings;
+    }
+
+    public void setTextFieldMappings(String textFieldMappings) {
+        this.textFieldMappings = textFieldMappings;
+    }
+}
