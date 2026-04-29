@@ -1322,7 +1322,8 @@ Notice how the block uses the `$init{` ... `}init$` markers to indicate the star
 Inside the init block, then you can assign local variables in the syntax `$key := <statement>;` where you can then use simple language to compute
 the value of the variable.
 
-IMPORTANT: Each statement must end with semicolon and new-line (`;\n`). This makes the init block more similar to Java programming language,
+IMPORTANT: Each statement must end with semicolon and new-line (`;\n`). You can only have 1 statement per line.
+This makes the init block more similar to Java programming language,
 and it was also necessary to make this work for the internal simple parser used by Camel.
 
 Here are a couple of examples:
@@ -1332,7 +1333,7 @@ Here are a couple of examples:
 $init{
   $cheese := 'Hello ${body}';
   $minAge := 18;
-  $foo := ${upper('Hello $body}'};
+  $foo := ${uppercase('Hello ${body}'};
   $bar := ${header.code > 999 ? 'Gold' : 'Silver'};
 }init$
 ----
@@ -1346,7 +1347,7 @@ $init{
   $minAge := 18;
 
   // say hello to my friend
-  $foo := ${upper('Hello $body}'};
+  $foo := ${uppercase('Hello ${body}')};
 
   // either gold or silver
   $bar := ${header.code > 999 ? 'Gold' : 'Silver'};
@@ -1361,8 +1362,8 @@ For example as below where we do a basic JSon mapping:
 [source,text]
 ----
 $init{
-  $greeting := ${upper('Hello $body}'}
-  $level := ${header.code > 999 ? 'Gold' : 'Silver'}
+  $greeting := ${uppercase('Hello ${body}')};
+  $level := ${header.code > 999 ? 'Gold' : 'Silver'};
 }init$
 {
   "message": "$greeting",
@@ -1385,7 +1386,7 @@ from("direct:welcome")
   .transform().simple(
           """
             $init{
-              $greeting := ${upper('Hello $body}'};
+              $greeting := ${uppercase('Hello ${body}')};
               $level := ${header.code > 999 ? 'Gold' : 'Silver'};
             }init$
             {
@@ -1406,7 +1407,7 @@ XML::
     <transform>
         <simple>
             $init{
-              $greeting := ${upper('Hello $body}'};
+              $greeting := ${uppercase('Hello ${body}')};
               $level := ${header.code > 999 ? 'Gold' : 'Silver'};
             }init$
             {
@@ -1431,7 +1432,7 @@ YAML::
           simple:
             expression: |-
                 $init{
-                  $greeting := ${upper('Hello $body}'};
+                  $greeting := ${uppercase('Hello ${body}')};
                   $level := ${header.code > 999 ? 'Gold' : 'Silver'};
                 }init$
                 {
