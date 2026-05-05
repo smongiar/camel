@@ -46,7 +46,6 @@ instead of `CamelAwsBedrockGuardrailConfig`. The `CamelAwsBedrockGuardrailConfig
 previous code path silently produced `null` whenever a route mixed `converse` and `applyGuardrail`
 calls. If you were not setting the guardrail identifier via header, the endpoint-level
 `guardrailIdentifier` option continues to work without changes.
-
 === camel-hazelcast
 
 Hazelcast instances created and managed by Camel (when no user-supplied
@@ -72,6 +71,7 @@ Applications that store classes outside the default whitelist on a
 Hazelcast topic, queue, map, list, set, or in one of the repositories
 above must provide their own `Config` with a
 `JavaSerializationFilterConfig` configured for their class names.
+
 === camel-jms
 
 JMS `ObjectMessage` support is now disabled by default. Java object serialization is a recurring source
