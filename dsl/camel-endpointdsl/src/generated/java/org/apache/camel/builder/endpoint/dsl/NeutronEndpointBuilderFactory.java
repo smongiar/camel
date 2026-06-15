@@ -311,10 +311,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network port router
          * 
-         * @return the name of the header {@code OpenstackNeutronTenantId}.
+         * @return the name of the header {@code tenantId}.
          */
-        public String openstackNeutronTenantId() {
-            return "CamelOpenstackNeutronTenantId";
+        public String tenantId() {
+            return "tenantId";
         }
         /**
          * Network ID.
@@ -323,10 +323,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: subnet port
          * 
-         * @return the name of the header {@code OpenstackNeutronNetworkId}.
+         * @return the name of the header {@code networkId}.
          */
-        public String openstackNeutronNetworkId() {
-            return "CamelOpenstackNeutronNetworkId";
+        public String networkId() {
+            return "networkId";
         }
         /**
          * AdminStateUp header.
@@ -335,10 +335,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network
          * 
-         * @return the name of the header {@code OpenstackNeutronAdminStateUp}.
+         * @return the name of the header {@code adminStateUp}.
          */
-        public String openstackNeutronAdminStateUp() {
-            return "CamelOpenstackNeutronAdminStateUp";
+        public String adminStateUp() {
+            return "adminStateUp";
         }
         /**
          * Network type.
@@ -348,10 +348,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network
          * 
-         * @return the name of the header {@code OpenstackNeutronNetworkType}.
+         * @return the name of the header {@code networkType}.
          */
-        public String openstackNeutronNetworkType() {
-            return "CamelOpenstackNeutronNetworkType";
+        public String networkType() {
+            return "networkType";
         }
         /**
          * Physical network.
@@ -360,11 +360,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network
          * 
-         * @return the name of the header {@code
-         * OpenstackNeutronPhysicalNetwork}.
+         * @return the name of the header {@code physicalNetwork}.
          */
-        public String openstackNeutronPhysicalNetwork() {
-            return "CamelOpenstackNeutronPhysicalNetwork";
+        public String physicalNetwork() {
+            return "physicalNetwork";
         }
         /**
          * Segment ID.
@@ -373,10 +372,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network
          * 
-         * @return the name of the header {@code OpenstackNeutronSegmentId}.
+         * @return the name of the header {@code segmentId}.
          */
-        public String openstackNeutronSegmentId() {
-            return "CamelOpenstackNeutronSegmentId";
+        public String segmentId() {
+            return "segmentId";
         }
         /**
          * Is shared.
@@ -385,10 +384,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network
          * 
-         * @return the name of the header {@code OpenstackNeutronIsShared}.
+         * @return the name of the header {@code isShared}.
          */
-        public String openstackNeutronIsShared() {
-            return "CamelOpenstackNeutronIsShared";
+        public String isShared() {
+            return "isShared";
         }
         /**
          * Is router external.
@@ -397,11 +396,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: network
          * 
-         * @return the name of the header {@code
-         * OpenstackNeutronIsRouterExternal}.
+         * @return the name of the header {@code isRouterExternal}.
          */
-        public String openstackNeutronIsRouterExternal() {
-            return "CamelOpenstackNeutronIsRouterExternal";
+        public String isRouterExternal() {
+            return "isRouterExternal";
         }
         /**
          * Enable DHCP.
@@ -410,10 +408,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: subnet
          * 
-         * @return the name of the header {@code OpenstackNeutronEnableDhcp}.
+         * @return the name of the header {@code enableDHCP}.
          */
-        public String openstackNeutronEnableDhcp() {
-            return "CamelOpenstackNeutronEnableDhcp";
+        public String enableDHCP() {
+            return "enableDHCP";
         }
         /**
          * Gateway.
@@ -422,10 +420,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: subnet
          * 
-         * @return the name of the header {@code OpenstackNeutronGateway}.
+         * @return the name of the header {@code gateway}.
          */
-        public String openstackNeutronGateway() {
-            return "CamelOpenstackNeutronGateway";
+        public String gateway() {
+            return "gateway";
         }
         /**
          * IP version.
@@ -435,10 +433,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: subnet
          * 
-         * @return the name of the header {@code OpenstackNeutronIpVersion}.
+         * @return the name of the header {@code ipVersion}.
          */
-        public String openstackNeutronIpVersion() {
-            return "CamelOpenstackNeutronIpVersion";
+        public String ipVersion() {
+            return "ipVersion";
         }
         /**
          * The cidr representing the IP range for this subnet, based on IP
@@ -448,10 +446,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: subnet
          * 
-         * @return the name of the header {@code OpenstackNeutronCidr}.
+         * @return the name of the header {@code cidr}.
          */
-        public String openstackNeutronCidr() {
-            return "CamelOpenstackNeutronCidr";
+        public String cidr() {
+            return "cidr";
         }
         /**
          * The allocation pool.
@@ -461,10 +459,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: subnet
          * 
-         * @return the name of the header {@code OpenstackNeutronSubnetPools}.
+         * @return the name of the header {@code subnetPools}.
          */
-        public String openstackNeutronSubnetPools() {
-            return "CamelOpenstackNeutronSubnetPools";
+        public String subnetPools() {
+            return "subnetPools";
         }
         /**
          * Device ID.
@@ -473,10 +471,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: port
          * 
-         * @return the name of the header {@code OpenstackNeutronDeviceId}.
+         * @return the name of the header {@code deviceId}.
          */
-        public String openstackNeutronDeviceId() {
-            return "CamelOpenstackNeutronDeviceId";
+        public String deviceId() {
+            return "deviceId";
         }
         /**
          * MAC address.
@@ -485,10 +483,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: port
          * 
-         * @return the name of the header {@code OpenstackNeutronMacAddress}.
+         * @return the name of the header {@code macAddress}.
          */
-        public String openstackNeutronMacAddress() {
-            return "CamelOpenstackNeutronMacAddress";
+        public String macAddress() {
+            return "macAddress";
         }
         /**
          * Router ID.
@@ -497,10 +495,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: router
          * 
-         * @return the name of the header {@code OpenstackNeutronRouterId}.
+         * @return the name of the header {@code routerId}.
          */
-        public String openstackNeutronRouterId() {
-            return "CamelOpenstackNeutronRouterId";
+        public String routerId() {
+            return "routerId";
         }
         /**
          * Subnet ID.
@@ -509,10 +507,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: router subnet
          * 
-         * @return the name of the header {@code OpenstackNeutronSubnetId}.
+         * @return the name of the header {@code subnetId}.
          */
-        public String openstackNeutronSubnetId() {
-            return "CamelOpenstackNeutronSubnetId";
+        public String subnetId() {
+            return "subnetId";
         }
         /**
          * Port ID.
@@ -521,10 +519,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: port router
          * 
-         * @return the name of the header {@code OpenstackNeutronPortId}.
+         * @return the name of the header {@code portId}.
          */
-        public String openstackNeutronPortId() {
-            return "CamelOpenstackNeutronPortId";
+        public String portId() {
+            return "portId";
         }
         /**
          * Interface type.
@@ -534,10 +532,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: router
          * 
-         * @return the name of the header {@code OpenstackNeutronInterfaceType}.
+         * @return the name of the header {@code interfaceType}.
          */
-        public String openstackNeutronInterfaceType() {
-            return "CamelOpenstackNeutronInterfaceType";
+        public String interfaceType() {
+            return "interfaceType";
         }
         /**
          * The operation to perform.
@@ -546,10 +544,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackOperation}.
+         * @return the name of the header {@code operation}.
          */
-        public String openstackOperation() {
-            return "CamelOpenstackOperation";
+        public String operation() {
+            return "operation";
         }
         /**
          * The ID.
@@ -558,10 +556,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackId}.
+         * @return the name of the header {@code ID}.
          */
-        public String openstackId() {
-            return "CamelOpenstackId";
+        public String iD() {
+            return "ID";
         }
         /**
          * The name.
@@ -570,10 +568,10 @@ public interface NeutronEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackName}.
+         * @return the name of the header {@code name}.
          */
-        public String openstackName() {
-            return "CamelOpenstackName";
+        public String name() {
+            return "name";
         }
     }
     static NeutronEndpointBuilder endpointBuilder(String componentName, String path) {

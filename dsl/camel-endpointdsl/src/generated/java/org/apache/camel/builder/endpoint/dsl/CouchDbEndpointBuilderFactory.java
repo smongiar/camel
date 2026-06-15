@@ -690,7 +690,7 @@ public interface CouchDbEndpointBuilderFactory {
          * @return the name of the header {@code CouchDbDatabase}.
          */
         public String couchDbDatabase() {
-            return "CamelCouchDbDatabase";
+            return "CouchDbDatabase";
         }
         /**
          * The couchdb changeset sequence number of the update / delete message.
@@ -702,7 +702,7 @@ public interface CouchDbEndpointBuilderFactory {
          * @return the name of the header {@code CouchDbSeq}.
          */
         public String couchDbSeq() {
-            return "CamelCouchDbSeq";
+            return "CouchDbSeq";
         }
         /**
          * The couchdb document id.
@@ -714,7 +714,7 @@ public interface CouchDbEndpointBuilderFactory {
          * @return the name of the header {@code CouchDbId}.
          */
         public String couchDbId() {
-            return "CamelCouchDbId";
+            return "CouchDbId";
         }
         /**
          * The couchdb document revision.
@@ -726,7 +726,7 @@ public interface CouchDbEndpointBuilderFactory {
          * @return the name of the header {@code CouchDbRev}.
          */
         public String couchDbRev() {
-            return "CamelCouchDbRev";
+            return "CouchDbRev";
         }
         /**
          * The method (delete / update).
@@ -738,7 +738,7 @@ public interface CouchDbEndpointBuilderFactory {
          * @return the name of the header {@code CouchDbMethod}.
          */
         public String couchDbMethod() {
-            return "CamelCouchDbMethod";
+            return "CouchDbMethod";
         }
         /**
          * The resume action to execute when resuming.

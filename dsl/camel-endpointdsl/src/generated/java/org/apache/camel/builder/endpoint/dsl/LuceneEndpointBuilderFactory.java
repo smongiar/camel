@@ -312,10 +312,10 @@ public interface LuceneEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code LuceneQuery}.
+         * @return the name of the header {@code QUERY}.
          */
-        public String luceneQuery() {
-            return "CamelLuceneQuery";
+        public String qUERY() {
+            return "QUERY";
         }
         /**
          * Set this header to true to include the actual Lucene documentation
@@ -325,10 +325,10 @@ public interface LuceneEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code LuceneReturnLuceneDocs}.
+         * @return the name of the header {@code RETURN_LUCENE_DOCS}.
          */
-        public String luceneReturnLuceneDocs() {
-            return "CamelLuceneReturnLuceneDocs";
+        public String returnLuceneDocs() {
+            return "RETURN_LUCENE_DOCS";
         }
     }
     static LuceneEndpointBuilder endpointBuilder(String componentName, String path) {
