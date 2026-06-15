@@ -409,10 +409,10 @@ public interface PdfEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code PdfProtectionPolicy}.
+         * @return the name of the header {@code protection-policy}.
          */
-        public String pdfProtectionPolicy() {
-            return "CamelPdfProtectionPolicy";
+        public String protectionPolicy() {
+            return "protection-policy";
         }
         /**
          * Mandatory header for append operation and ignored in all other
@@ -423,10 +423,10 @@ public interface PdfEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code PdfDocument}.
+         * @return the name of the header {@code pdf-document}.
          */
         public String pdfDocument() {
-            return "CamelPdfDocument";
+            return "pdf-document";
         }
         /**
          * Expected type is
@@ -437,10 +437,10 @@ public interface PdfEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code PdfDecryptionMaterial}.
+         * @return the name of the header {@code decryption-material}.
          */
-        public String pdfDecryptionMaterial() {
-            return "CamelPdfDecryptionMaterial";
+        public String decryptionMaterial() {
+            return "decryption-material";
         }
         /**
          * Mandatory header for merge operation and ignored in all other
@@ -450,10 +450,10 @@ public interface PdfEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code PdfFilesToMerge}.
+         * @return the name of the header {@code files-to-merge}.
          */
-        public String pdfFilesToMerge() {
-            return "CamelPdfFilesToMerge";
+        public String filesToMerge() {
+            return "files-to-merge";
         }
     }
     static PdfEndpointBuilder endpointBuilder(String componentName, String path) {

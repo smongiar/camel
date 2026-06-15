@@ -2351,10 +2351,10 @@ public interface MiloClientEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code MiloAwait}.
+         * @return the name of the header {@code await}.
          */
-        public String miloAwait() {
-            return "CamelMiloAwait";
+        public String await() {
+            return "await";
         }
     }
     static MiloClientEndpointBuilder endpointBuilder(String componentName, String path) {

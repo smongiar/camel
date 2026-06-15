@@ -300,10 +300,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackKeystoneDescription}.
+         * @return the name of the header {@code description}.
          */
-        public String openstackKeystoneDescription() {
-            return "CamelOpenstackKeystoneDescription";
+        public String description() {
+            return "description";
         }
         /**
          * ID of the domain.
@@ -312,10 +312,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: group project user
          * 
-         * @return the name of the header {@code OpenstackKeystoneDomainId}.
+         * @return the name of the header {@code domainId}.
          */
-        public String openstackKeystoneDomainId() {
-            return "CamelOpenstackKeystoneDomainId";
+        public String domainId() {
+            return "domainId";
         }
         /**
          * The parent project ID.
@@ -324,10 +324,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: project
          * 
-         * @return the name of the header {@code OpenstackKeystoneParentId}.
+         * @return the name of the header {@code parentId}.
          */
-        public String openstackKeystoneParentId() {
-            return "CamelOpenstackKeystoneParentId";
+        public String parentId() {
+            return "parentId";
         }
         /**
          * User's password.
@@ -336,10 +336,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: user
          * 
-         * @return the name of the header {@code OpenstackKeystonePassword}.
+         * @return the name of the header {@code password}.
          */
-        public String openstackKeystonePassword() {
-            return "CamelOpenstackKeystonePassword";
+        public String password() {
+            return "password";
         }
         /**
          * User's email.
@@ -348,10 +348,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: user
          * 
-         * @return the name of the header {@code OpenstackKeystoneEmail}.
+         * @return the name of the header {@code email}.
          */
-        public String openstackKeystoneEmail() {
-            return "CamelOpenstackKeystoneEmail";
+        public String email() {
+            return "email";
         }
         /**
          * ID of the user.
@@ -360,10 +360,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: group
          * 
-         * @return the name of the header {@code OpenstackKeystoneUserId}.
+         * @return the name of the header {@code userId}.
          */
-        public String openstackKeystoneUserId() {
-            return "CamelOpenstackKeystoneUserId";
+        public String userId() {
+            return "userId";
         }
         /**
          * ID of the group.
@@ -372,10 +372,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: group
          * 
-         * @return the name of the header {@code OpenstackKeystoneGroupId}.
+         * @return the name of the header {@code groupId}.
          */
-        public String openstackKeystoneGroupId() {
-            return "CamelOpenstackKeystoneGroupId";
+        public String groupId() {
+            return "groupId";
         }
         /**
          * The operation to perform.
@@ -384,10 +384,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackOperation}.
+         * @return the name of the header {@code operation}.
          */
-        public String openstackOperation() {
-            return "CamelOpenstackOperation";
+        public String operation() {
+            return "operation";
         }
         /**
          * The ID.
@@ -396,10 +396,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackId}.
+         * @return the name of the header {@code ID}.
          */
-        public String openstackId() {
-            return "CamelOpenstackId";
+        public String iD() {
+            return "ID";
         }
         /**
          * The name.
@@ -408,10 +408,10 @@ public interface KeystoneEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackName}.
+         * @return the name of the header {@code name}.
          */
-        public String openstackName() {
-            return "CamelOpenstackName";
+        public String name() {
+            return "name";
         }
     }
     static KeystoneEndpointBuilder endpointBuilder(String componentName, String path) {

@@ -1780,10 +1780,10 @@ public interface CouchbaseEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code CouchbaseKey}.
+         * @return the name of the header {@code CCB_KEY}.
          */
-        public String couchbaseKey() {
-            return "CamelCouchbaseKey";
+        public String ccbKey() {
+            return "CCB_KEY";
         }
         /**
          * The document id.
@@ -1792,10 +1792,10 @@ public interface CouchbaseEndpointBuilderFactory {
          * 
          * Group: common
          * 
-         * @return the name of the header {@code CouchbaseId}.
+         * @return the name of the header {@code CCB_ID}.
          */
-        public String couchbaseId() {
-            return "CamelCouchbaseId";
+        public String ccbId() {
+            return "CCB_ID";
         }
         /**
          * The expiry for the document in seconds.
@@ -1804,10 +1804,10 @@ public interface CouchbaseEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code CouchbaseTtl}.
+         * @return the name of the header {@code CCB_TTL}.
          */
-        public String couchbaseTtl() {
-            return "CamelCouchbaseTtl";
+        public String ccbTtl() {
+            return "CCB_TTL";
         }
         /**
          * The design document name.
@@ -1816,10 +1816,10 @@ public interface CouchbaseEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code CouchbaseDesignDocumentName}.
+         * @return the name of the header {@code CCB_DDN}.
          */
-        public String couchbaseDesignDocumentName() {
-            return "CamelCouchbaseDesignDocumentName";
+        public String ccbDdn() {
+            return "CCB_DDN";
         }
         /**
          * The view name.
@@ -1828,10 +1828,10 @@ public interface CouchbaseEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code CouchbaseViewName}.
+         * @return the name of the header {@code CCB_VN}.
          */
-        public String couchbaseViewName() {
-            return "CamelCouchbaseViewName";
+        public String ccbVn() {
+            return "CCB_VN";
         }
         /**
          * The resume action to execute when resuming.

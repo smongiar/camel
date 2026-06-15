@@ -311,10 +311,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: volume
          * 
-         * @return the name of the header {@code OpenstackCinderSize}.
+         * @return the name of the header {@code size}.
          */
-        public String openstackCinderSize() {
-            return "CamelOpenstackCinderSize";
+        public String size() {
+            return "size";
         }
         /**
          * Volume type.
@@ -323,10 +323,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: volume
          * 
-         * @return the name of the header {@code OpenstackCinderVolumeType}.
+         * @return the name of the header {@code volumeType}.
          */
-        public String openstackCinderVolumeType() {
-            return "CamelOpenstackCinderVolumeType";
+        public String volumeType() {
+            return "volumeType";
         }
         /**
          * ID of image.
@@ -335,10 +335,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: volume
          * 
-         * @return the name of the header {@code OpenstackCinderImageRef}.
+         * @return the name of the header {@code imageRef}.
          */
-        public String openstackCinderImageRef() {
-            return "CamelOpenstackCinderImageRef";
+        public String imageRef() {
+            return "imageRef";
         }
         /**
          * ID of snapshot.
@@ -347,10 +347,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: volume
          * 
-         * @return the name of the header {@code OpenstackCinderSnapshotId}.
+         * @return the name of the header {@code snapshotId}.
          */
-        public String openstackCinderSnapshotId() {
-            return "CamelOpenstackCinderSnapshotId";
+        public String snapshotId() {
+            return "snapshotId";
         }
         /**
          * Is bootable.
@@ -359,10 +359,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: volume
          * 
-         * @return the name of the header {@code OpenstackCinderIsBootable}.
+         * @return the name of the header {@code isBootable}.
          */
-        public String openstackCinderIsBootable() {
-            return "CamelOpenstackCinderIsBootable";
+        public String isBootable() {
+            return "isBootable";
         }
         /**
          * The Volume ID.
@@ -371,10 +371,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: snapshot
          * 
-         * @return the name of the header {@code OpenstackCinderVolumeId}.
+         * @return the name of the header {@code volumeId}.
          */
-        public String openstackCinderVolumeId() {
-            return "CamelOpenstackCinderVolumeId";
+        public String volumeId() {
+            return "volumeId";
         }
         /**
          * Force.
@@ -383,10 +383,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: snapshot
          * 
-         * @return the name of the header {@code OpenstackCinderForce}.
+         * @return the name of the header {@code force}.
          */
-        public String openstackCinderForce() {
-            return "CamelOpenstackCinderForce";
+        public String force() {
+            return "force";
         }
         /**
          * The operation to perform.
@@ -395,10 +395,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackOperation}.
+         * @return the name of the header {@code operation}.
          */
-        public String openstackOperation() {
-            return "CamelOpenstackOperation";
+        public String operation() {
+            return "operation";
         }
         /**
          * The ID.
@@ -407,10 +407,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackId}.
+         * @return the name of the header {@code ID}.
          */
-        public String openstackId() {
-            return "CamelOpenstackId";
+        public String iD() {
+            return "ID";
         }
         /**
          * The name.
@@ -419,10 +419,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackName}.
+         * @return the name of the header {@code name}.
          */
-        public String openstackName() {
-            return "CamelOpenstackName";
+        public String name() {
+            return "name";
         }
         /**
          * The description.
@@ -431,10 +431,10 @@ public interface CinderEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code OpenstackDescription}.
+         * @return the name of the header {@code description}.
          */
-        public String openstackDescription() {
-            return "CamelOpenstackDescription";
+        public String description() {
+            return "description";
         }
     }
     static CinderEndpointBuilder endpointBuilder(String componentName, String path) {
