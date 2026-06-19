@@ -13,6 +13,28 @@ See the xref:camel-upgrade-recipes-tool.adoc[documentation] page for details.
 
 == Upgrading from 4.18.2 to 4.18.3
 
+=== camel-spring-ws - potential breaking change
+
+The `spring-ws` consumer now applies a `HeaderFilterStrategy` to the SOAP headers it maps onto the
+Camel `Exchange`. The default `headerFilterStrategy` is a new `SpringWebserviceHeaderFilterStrategy`
+that filters header names starting with `Camel` / `camel` (case-insensitive) in both the inbound and
+outbound directions, aligning the component with the rest of the Camel component catalog
+(`camel-cxf`, `camel-mail`, `camel-coap`, ...). SOAP header element and attribute names that fall in
+that namespace are no longer propagated as `Exchange` headers. Routes that relied on receiving such
+header names from inbound SOAP headers can supply a custom `headerFilterStrategy` (via the new
+`headerFilterStrategy` endpoint option) to restore the previous behaviour.
+
+=== camel-keycloak
+
+The `KeycloakSecurityPolicy` route policy now always verifies the access token when one is present - signature,
+issuer and expiry for local JWT verification, or active state and issuer when token introspection is enabled -
+even when neither `requiredRoles` nor `requiredPermissions` is configured. Previously the token was only verified
+when at least one role or permission was required.
+
+Routes that attach a `KeycloakSecurityPolicy` without any roles or permissions and that previously forwarded an
+unverified or invalid token will now have such requests rejected with a `CamelAuthorizationException`. Provide a
+valid, verifiable token (or configure `requiredRoles` / `requiredPermissions`) for these routes.
+
 === camel-langchain4j-tools / camel-langchain4j-agent / camel-spring-ai-tools
 
 LLM tool argument field names are now filtered against the tool's declared parameter schema
@@ -46,7 +68,6 @@ instead of `CamelAwsBedrockGuardrailConfig`. The `CamelAwsBedrockGuardrailConfig
 previous code path silently produced `null` whenever a route mixed `converse` and `applyGuardrail`
 calls. If you were not setting the guardrail identifier via header, the endpoint-level
 `guardrailIdentifier` option continues to work without changes.
-
 === camel-hazelcast
 
 Hazelcast instances created and managed by Camel (when no user-supplied
@@ -72,6 +93,7 @@ Applications that store classes outside the default whitelist on a
 Hazelcast topic, queue, map, list, set, or in one of the repositories
 above must provide their own `Config` with a
 `JavaSerializationFilterConfig` configured for their class names.
+
 === camel-jms
 
 JMS `ObjectMessage` support is now disabled by default. Java object serialization is a recurring source
@@ -905,6 +927,31 @@ transport `from` and the `irc:` `to`. Allowing untrusted senders to drive
 `IrcConstants.IRC_SEND_TO` without such a mapping step is not the intended use
 of the component.
 
+=== camel-netty-http / camel-undertow - potential breaking change
+
+The `muteException` consumer option now defaults to `true` in `camel-netty-http` and
+`camel-undertow`, aligning these components with the other HTTP server components
+(`camel-http`, `camel-jetty`, `camel-servlet`, and `camel-platform-http`), which have
+been defaulting `muteException` to `true` for a long time.
+
+When an exchange fails processing on the consumer side, the HTTP response now has an
+empty body. Previously the response body contained the exception stack trace as
+`text/plain`.
+
+Routes that rely on the exception stack trace being present in the response body must
+set `muteException=false` explicitly on the endpoint or component after the upgrade:
+
+[source,text]
+----
+netty-http:http://0.0.0.0:8080/foo?muteException=false
+undertow:http://0.0.0.0:8080/foo?muteException=false
+----
+
+Note that `muteException` takes precedence over `transferException`, as it already does
+in the other HTTP server components. Routes using `transferException=true` on these two
+components must now also set `muteException=false` for the serialized exception to be
+returned in the response.
+
 == Upgrading from 4.18.1 to 4.18.2
 
 === camel-platform-http-main
@@ -1163,6 +1210,53 @@ directions, aligning the component with the rest of the Camel component catalog.
 `Camel`-prefixed user-header names from Iggy messages can supply a custom `headerFilterStrategy`
 to restore the previous behaviour.
 
+=== camel-undertow - potential breaking change
+
+`UndertowHeaderFilterStrategy` now also filters the legacy `websocket.*`
+Exchange-header prefix (in addition to the `Camel*` / `camel*` /
+`org.apache.camel.*` prefixes it already filtered). This applies to both the
+in (wire -> exchange) and out (exchange -> wire) directions and follows the
+dedicated-filter-strategy shape used by CAMEL-23532 for
+`camel-vertx-websocket` / `camel-atmosphere-websocket` / `camel-iggy`.
+
+The constants in `UndertowConstants` (`CONNECTION_KEY`, `CONNECTION_KEY_LIST`,
+`SEND_TO_ALL`, `EVENT_TYPE`, `EVENT_TYPE_ENUM`, `CHANNEL`, `EXCHANGE`) keep
+their existing string values (`websocket.connectionKey`,
+`websocket.connectionKey.list`, `websocket.sendToAll`, etc.) because they are
+part of the undertow component's externally-visible API contract; routes
+referencing them (symbolically or by literal value) continue to work
+unchanged within an undertow route.
+
+The behaviour change applies at undertow's transport boundary:
+
+* Outbound (exchange -> wire): if an exchange ends up at an undertow producer
+  carrying an Exchange header whose name starts with `websocket.`, that
+  header will no longer be propagated onto the outbound HTTP/websocket
+  request as a wire-level header.
+* Inbound (wire -> exchange): if an undertow consumer receives a request
+  whose wire-level headers include a name starting with `websocket.`, that
+  header will no longer be mapped into the resulting Camel exchange.
+
+Note that the `HeaderFilterStrategy` only governs the transport boundary; it
+does not prevent cross-component header injection (for example, an
+`http -> undertow` route where the HTTP consumer maps an attacker-supplied
+`websocket.connectionKey` header into the exchange and the undertow producer
+then reads it via `in.getHeader(...)` to dispatch to a specific peer). For
+defence in depth at the trust boundary, route authors should explicitly strip
+these headers from untrusted inbound traffic, for example:
+
+[source,java]
+----
+from("jetty:http://0.0.0.0:8080/api")
+    .removeHeaders("websocket.*")
+    .to("undertow:ws://internal-broker/notifications");
+----
+
+Routes that intentionally relied on undertow mapping `websocket.*` wire
+headers in or out can supply a custom `headerFilterStrategy` endpoint option
+to restore the previous behaviour.
+
+
 === camel-aws2-sqs
 
 `Sqs2HeaderFilterStrategy` now also configures an inbound filter aligned with the existing
@@ -1281,3 +1375,92 @@ Routes that set the header by its literal string value (for example
 
 As a consequence, the generated Endpoint DSL header accessor `await()` on
 `MiloClientHeaderNameBuilder` has been renamed to `miloAwait()`.
+
+=== camel-salesforce - potential breaking change
+
+The Exchange header constants in `SalesforceEndpointConfig` have been renamed to
+follow the Camel naming convention used across the rest of the component catalog,
+so that they are governed by the default `HeaderFilterStrategy` (which only filters
+`Camel`/`camel`-prefixed headers). The Java field names are unchanged; only the
+header string values have changed.
+
+These parameters are dual-use: they can be supplied either as endpoint options (for
+example `salesforce:query?sObjectQuery=...`) or as message headers. *The endpoint
+option spelling is unchanged* -- only the *header* name has changed.
+
+[options="header"]
+|===
+| Constant | Previous value | New value
+| `SalesforceEndpointConfig.SOBJECT_NAME` | `sObjectName` | `CamelSalesforceSObjectName`
+| `SalesforceEndpointConfig.SOBJECT_ID` | `sObjectId` | `CamelSalesforceSObjectId`
+| `SalesforceEndpointConfig.SOBJECT_IDS` | `sObjectIds` | `CamelSalesforceSObjectIds`
+| `SalesforceEndpointConfig.SOBJECT_FIELDS` | `sObjectFields` | `CamelSalesforceSObjectFields`
+| `SalesforceEndpointConfig.SOBJECT_EXT_ID_NAME` | `sObjectIdName` | `CamelSalesforceSObjectIdName`
+| `SalesforceEndpointConfig.SOBJECT_EXT_ID_VALUE` | `sObjectIdValue` | `CamelSalesforceSObjectIdValue`
+| `SalesforceEndpointConfig.SOBJECT_BLOB_FIELD_NAME` | `sObjectBlobFieldName` | `CamelSalesforceSObjectBlobFieldName`
+| `SalesforceEndpointConfig.SOBJECT_CLASS` | `sObjectClass` | `CamelSalesforceSObjectClass`
+| `SalesforceEndpointConfig.SOBJECT_QUERY` | `sObjectQuery` | `CamelSalesforceSObjectQuery`
+| `SalesforceEndpointConfig.STREAM_QUERY_RESULT` | `streamQueryResult` | `CamelSalesforceStreamQueryResult`
+| `SalesforceEndpointConfig.SOBJECT_SEARCH` | `sObjectSearch` | `CamelSalesforceSObjectSearch`
+| `SalesforceEndpointConfig.APEX_METHOD` | `apexMethod` | `CamelSalesforceApexMethod`
+| `SalesforceEndpointConfig.APEX_URL` | `apexUrl` | `CamelSalesforceApexUrl`
+| `SalesforceEndpointConfig.APEX_QUERY_PARAM_PREFIX` | `apexQueryParam.` | `CamelSalesforceApexQueryParam.`
+| `SalesforceEndpointConfig.COMPOSITE_METHOD` | `compositeMethod` | `CamelSalesforceCompositeMethod`
+| `SalesforceEndpointConfig.LIMIT` | `limit` | `CamelSalesforceLimit`
+| `SalesforceEndpointConfig.ALL_OR_NONE` | `allOrNone` | `CamelSalesforceAllOrNone`
+| `SalesforceEndpointConfig.EVENT_NAME` | `eventName` | `CamelSalesforceEventName`
+| `SalesforceEndpointConfig.EVENT_SCHEMA_ID` | `eventSchemaId` | `CamelSalesforceEventSchemaId`
+| `SalesforceEndpointConfig.EVENT_SCHEMA_FORMAT` | `eventSchemaFormat` | `CamelSalesforceEventSchemaFormat`
+| `SalesforceEndpointConfig.CONTENT_TYPE` | `contentType` | `CamelSalesforceContentType`
+| `SalesforceEndpointConfig.JOB_ID` | `jobId` | `CamelSalesforceJobId`
+| `SalesforceEndpointConfig.BATCH_ID` | `batchId` | `CamelSalesforceBatchId`
+| `SalesforceEndpointConfig.RESULT_ID` | `resultId` | `CamelSalesforceResultId`
+| `SalesforceEndpointConfig.QUERY_LOCATOR` | `queryLocator` | `CamelSalesforceQueryLocator`
+| `SalesforceEndpointConfig.LOCATOR` | `locator` | `CamelSalesforceLocator`
+| `SalesforceEndpointConfig.MAX_RECORDS` | `maxRecords` | `CamelSalesforceMaxRecords`
+| `SalesforceEndpointConfig.PK_CHUNKING` | `pkChunking` | `CamelSalesforcePkChunking`
+| `SalesforceEndpointConfig.PK_CHUNKING_CHUNK_SIZE` | `pkChunkingChunkSize` | `CamelSalesforcePkChunkingChunkSize`
+| `SalesforceEndpointConfig.PK_CHUNKING_PARENT` | `pkChunkingParent` | `CamelSalesforcePkChunkingParent`
+| `SalesforceEndpointConfig.PK_CHUNKING_START_ROW` | `pkChunkingStartRow` | `CamelSalesforcePkChunkingStartRow`
+| `SalesforceEndpointConfig.REPORT_ID` | `reportId` | `CamelSalesforceReportId`
+| `SalesforceEndpointConfig.INCLUDE_DETAILS` | `includeDetails` | `CamelSalesforceIncludeDetails`
+| `SalesforceEndpointConfig.REPORT_METADATA` | `reportMetadata` | `CamelSalesforceReportMetadata`
+| `SalesforceEndpointConfig.INSTANCE_ID` | `instanceId` | `CamelSalesforceInstanceId`
+| `SalesforceEndpointConfig.RAW_PATH` | `rawPath` | `CamelSalesforceRawPath`
+| `SalesforceEndpointConfig.RAW_METHOD` | `rawMethod` | `CamelSalesforceRawMethod`
+| `SalesforceEndpointConfig.RAW_QUERY_PARAMETERS` | `rawQueryParameters` | `CamelSalesforceRawQueryParameters`
+| `SalesforceEndpointConfig.RAW_HTTP_HEADERS` | `rawHttpHeaders` | `CamelSalesforceRawHttpHeaders`
+|===
+
+Routes that reference the constants symbolically (for example
+`setHeader(SalesforceEndpointConfig.SOBJECT_QUERY, ...)`) continue to work without
+changes. Routes that set the value as a *header* by its literal string (for example
+`setHeader("sObjectQuery", ...)`) must be updated to the new value
+(`setHeader("CamelSalesforceSObjectQuery", ...)`), or preferably switch to the
+symbolic constant. The `apexQueryParam.` header prefix is likewise renamed to
+`CamelSalesforceApexQueryParam.`, so a header such as `apexQueryParam.foo` must now
+be set as `CamelSalesforceApexQueryParam.foo`.
+
+The configuration-only options that are never read from a message header --
+`apiVersion`, `format`, `rawPayload`, `defaultReplayId`, `fallBackReplayId`,
+`initialReplayIdMap`, `replayPreset`, `pubSubDeserializeType`, `pubSubPojoClass`,
+`notFoundBehaviour` and `fallbackToLatestReplayId` -- are unchanged, as is the
+Approval API `approval` / `approval.<property>` mechanism (whose endpoint-option and
+header spellings are intentionally identical and bound to the `approval` endpoint
+parameter name).
+
+==== Behaviour change: cross-transport propagation
+
+Because the renamed header values now begin with `Camel`, they are filtered by the
+standard transport `HeaderFilterStrategy` (`HttpHeaderFilterStrategy`,
+`JmsHeaderFilterStrategy`, etc.) when crossing a transport boundary, by design --
+`Camel*` headers are framework-internal and are not propagated over the wire.
+
+Routes that bridge an external transport (HTTP, JMS, ...) into a `salesforce:`
+producer and let the sender choose, for example, the SOQL query, the target SObject
+or the Apex endpoint via these headers must carry those values in
+non-`Camel`-prefixed application headers and map them to the corresponding
+`SalesforceEndpointConfig` constants in the route between the transport `from` and
+the `salesforce:` `to`. As defence-in-depth, strip inbound Camel-internal headers
+arriving from untrusted producers with `removeHeaders("CamelSalesforce*")` (or the
+broader `removeHeaders("Camel*")`) before the producer.
