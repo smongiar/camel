@@ -374,10 +374,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftLogSize}.
+         * @return the name of the header {@code JGROUPSRAFT_LOG_SIZE}.
          */
-        public String jGroupsRaftLogSize() {
-            return "CamelJGroupsRaftLogSize";
+        public String jgroupsraftLogSize() {
+            return "JGROUPSRAFT_LOG_SIZE";
         }
         /**
          * The commit index.
@@ -386,10 +386,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftCommitIndex}.
+         * @return the name of the header {@code JGROUPSRAFT_COMMIT_INDEX}.
          */
-        public String jGroupsRaftCommitIndex() {
-            return "CamelJGroupsRaftCommitIndex";
+        public String jgroupsraftCommitIndex() {
+            return "JGROUPSRAFT_COMMIT_INDEX";
         }
         /**
          * The current raft term.
@@ -398,10 +398,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftCurrentTerm}.
+         * @return the name of the header {@code JGROUPSRAFT_CURRENT_TERM}.
          */
-        public String jGroupsRaftCurrentTerm() {
-            return "CamelJGroupsRaftCurrentTerm";
+        public String jgroupsraftCurrentTerm() {
+            return "JGROUPSRAFT_CURRENT_TERM";
         }
         /**
          * Whether the node is the Raft Leader or not.
@@ -410,10 +410,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftIsLeader}.
+         * @return the name of the header {@code JGROUPSRAFT_IS_LEADER}.
          */
-        public String jGroupsRaftIsLeader() {
-            return "CamelJGroupsRaftIsLeader";
+        public String jgroupsraftIsLeader() {
+            return "JGROUPSRAFT_IS_LEADER";
         }
         /**
          * The index of the last log entry that was appended to the log.
@@ -422,10 +422,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftLastApplied}.
+         * @return the name of the header {@code JGROUPSRAFT_LAST_APPLIED}.
          */
-        public String jGroupsRaftLastApplied() {
-            return "CamelJGroupsRaftLastApplied";
+        public String jgroupsraftLastApplied() {
+            return "JGROUPSRAFT_LAST_APPLIED";
         }
         /**
          * The Address ot Raft Leader or not.
@@ -434,10 +434,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftLeaderAddress}.
+         * @return the name of the header {@code JGROUPSRAFT_LEADER_ADDRESS}.
          */
-        public String jGroupsRaftLeaderAddress() {
-            return "CamelJGroupsRaftLeaderAddress";
+        public String jgroupsraftLeaderAddress() {
+            return "JGROUPSRAFT_LEADER_ADDRESS";
         }
         /**
          * The Raft id of the node.
@@ -446,10 +446,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftRaftId}.
+         * @return the name of the header {@code JGROUPSRAFT_RAFT_ID}.
          */
-        public String jGroupsRaftRaftId() {
-            return "CamelJGroupsRaftRaftId";
+        public String jgroupsraftRaftId() {
+            return "JGROUPSRAFT_RAFT_ID";
         }
         /**
          * The event type.
@@ -459,10 +459,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: consumer
          * 
-         * @return the name of the header {@code JGroupsRaftEventType}.
+         * @return the name of the header {@code JGROUPSRAFT_EVENT_TYPE}.
          */
-        public String jGroupsRaftEventType() {
-            return "CamelJGroupsRaftEventType";
+        public String jgroupsraftEventType() {
+            return "JGROUPSRAFT_EVENT_TYPE";
         }
         /**
          * Offset to use in the byte buffer to be set().
@@ -471,10 +471,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code JGroupsRaftSetOffset}.
+         * @return the name of the header {@code JGROUPSRAFT_SET_OFFSET}.
          */
-        public String jGroupsRaftSetOffset() {
-            return "CamelJGroupsRaftSetOffset";
+        public String jgroupsraftSetOffset() {
+            return "JGROUPSRAFT_SET_OFFSET";
         }
         /**
          * Length to use in the byte buffer to be set().
@@ -483,10 +483,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code JGroupsRaftSetLength}.
+         * @return the name of the header {@code JGROUPSRAFT_SET_LENGTH}.
          */
-        public String jGroupsRaftSetLength() {
-            return "CamelJGroupsRaftSetLength";
+        public String jgroupsraftSetLength() {
+            return "JGROUPSRAFT_SET_LENGTH";
         }
         /**
          * Timeout to be used in set() operation.
@@ -495,10 +495,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code JGroupsRaftSetTimeout}.
+         * @return the name of the header {@code JGROUPSRAFT_SET_TIMEOUT}.
          */
-        public String jGroupsRaftSetTimeout() {
-            return "CamelJGroupsRaftSetTimeout";
+        public String jgroupsraftSetTimeout() {
+            return "JGROUPSRAFT_SET_TIMEOUT";
         }
         /**
          * Timeunit to be used in set() operation.
@@ -507,10 +507,10 @@ public interface JGroupsRaftEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code JGroupsRaftSetTimeUnit}.
+         * @return the name of the header {@code JGROUPSRAFT_SET_TIMEUNIT}.
          */
-        public String jGroupsRaftSetTimeUnit() {
-            return "CamelJGroupsRaftSetTimeUnit";
+        public String jgroupsraftSetTimeunit() {
+            return "JGROUPSRAFT_SET_TIMEUNIT";
         }
     }
     static JGroupsRaftEndpointBuilder endpointBuilder(String componentName, String path) {

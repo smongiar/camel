@@ -563,38 +563,6 @@ public interface MiloClientEndpointBuilderFactory {
             return this;
         }
         /**
-         * Override the server reported endpoint port with the port from the
-         * endpoint URI.
-         * 
-         * The option is a: <code>boolean</code> type.
-         * 
-         * Default: false
-         * Group: client
-         * 
-         * @param overridePort the value to set
-         * @return the dsl builder
-         */
-        default MiloClientEndpointConsumerBuilder overridePort(boolean overridePort) {
-            doSetProperty("overridePort", overridePort);
-            return this;
-        }
-        /**
-         * Override the server reported endpoint port with the port from the
-         * endpoint URI.
-         * 
-         * The option will be converted to a <code>boolean</code> type.
-         * 
-         * Default: false
-         * Group: client
-         * 
-         * @param overridePort the value to set
-         * @return the dsl builder
-         */
-        default MiloClientEndpointConsumerBuilder overridePort(String overridePort) {
-            doSetProperty("overridePort", overridePort);
-            return this;
-        }
-        /**
          * The product URI.
          * 
          * The option is a: <code>java.lang.String</code> type.
@@ -1368,38 +1336,6 @@ public interface MiloClientEndpointBuilderFactory {
             return this;
         }
         /**
-         * Override the server reported endpoint port with the port from the
-         * endpoint URI.
-         * 
-         * The option is a: <code>boolean</code> type.
-         * 
-         * Default: false
-         * Group: client
-         * 
-         * @param overridePort the value to set
-         * @return the dsl builder
-         */
-        default MiloClientEndpointProducerBuilder overridePort(boolean overridePort) {
-            doSetProperty("overridePort", overridePort);
-            return this;
-        }
-        /**
-         * Override the server reported endpoint port with the port from the
-         * endpoint URI.
-         * 
-         * The option will be converted to a <code>boolean</code> type.
-         * 
-         * Default: false
-         * Group: client
-         * 
-         * @param overridePort the value to set
-         * @return the dsl builder
-         */
-        default MiloClientEndpointProducerBuilder overridePort(String overridePort) {
-            doSetProperty("overridePort", overridePort);
-            return this;
-        }
-        /**
          * The product URI.
          * 
          * The option is a: <code>java.lang.String</code> type.
@@ -2102,38 +2038,6 @@ public interface MiloClientEndpointBuilderFactory {
             return this;
         }
         /**
-         * Override the server reported endpoint port with the port from the
-         * endpoint URI.
-         * 
-         * The option is a: <code>boolean</code> type.
-         * 
-         * Default: false
-         * Group: client
-         * 
-         * @param overridePort the value to set
-         * @return the dsl builder
-         */
-        default MiloClientEndpointBuilder overridePort(boolean overridePort) {
-            doSetProperty("overridePort", overridePort);
-            return this;
-        }
-        /**
-         * Override the server reported endpoint port with the port from the
-         * endpoint URI.
-         * 
-         * The option will be converted to a <code>boolean</code> type.
-         * 
-         * Default: false
-         * Group: client
-         * 
-         * @param overridePort the value to set
-         * @return the dsl builder
-         */
-        default MiloClientEndpointBuilder overridePort(String overridePort) {
-            doSetProperty("overridePort", overridePort);
-            return this;
-        }
-        /**
          * The product URI.
          * 
          * The option is a: <code>java.lang.String</code> type.
@@ -2351,10 +2255,10 @@ public interface MiloClientEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code MiloAwait}.
+         * @return the name of the header {@code await}.
          */
-        public String miloAwait() {
-            return "CamelMiloAwait";
+        public String await() {
+            return "await";
         }
     }
     static MiloClientEndpointBuilder endpointBuilder(String componentName, String path) {

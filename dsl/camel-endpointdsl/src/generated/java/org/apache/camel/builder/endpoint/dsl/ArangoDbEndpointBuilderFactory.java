@@ -457,10 +457,10 @@ public interface ArangoDbEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code ArangoDbKey}.
+         * @return the name of the header {@code key}.
          */
-        public String arangoDbKey() {
-            return "CamelArangoDbKey";
+        public String key() {
+            return "key";
         }
         /**
          * The type of the result of the operation.
@@ -470,10 +470,10 @@ public interface ArangoDbEndpointBuilderFactory {
          * Default: BaseDocument.class or BaseEdgeDocument.class
          * Group: producer
          * 
-         * @return the name of the header {@code ArangoDbResultClassType}.
+         * @return the name of the header {@code ResultClassType}.
          */
-        public String arangoDbResultClassType() {
-            return "CamelArangoDbResultClassType";
+        public String resultClassType() {
+            return "ResultClassType";
         }
         /**
          * The AQL query to execute.

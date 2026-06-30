@@ -896,10 +896,10 @@ public interface GridFsEndpointBuilderFactory {
          * 
          * Group: common
          * 
-         * @return the name of the header {@code GridFsMetadata}.
+         * @return the name of the header {@code gridfs.metadata}.
          */
-        public String gridFsMetadata() {
-            return "CamelGridFsMetadata";
+        public String gridfsMetadata() {
+            return "gridfs.metadata";
         }
         /**
          * The operation to perform.
@@ -908,10 +908,10 @@ public interface GridFsEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code GridFsOperation}.
+         * @return the name of the header {@code gridfs.operation}.
          */
-        public String gridFsOperation() {
-            return "CamelGridFsOperation";
+        public String gridfsOperation() {
+            return "gridfs.operation";
         }
         /**
          * The number of bytes per chunk for the uploaded file.
@@ -920,10 +920,10 @@ public interface GridFsEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code GridFsChunkSize}.
+         * @return the name of the header {@code gridfs.chunksize}.
          */
-        public String gridFsChunkSize() {
-            return "CamelGridFsChunkSize";
+        public String gridfsChunksize() {
+            return "gridfs.chunksize";
         }
         /**
          * The ObjectId of the file produced.
@@ -932,10 +932,10 @@ public interface GridFsEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code GridFsFileId}.
+         * @return the name of the header {@code gridfs.fileid}.
          */
-        public String gridFsFileId() {
-            return "CamelGridFsFileId";
+        public String gridfsFileid() {
+            return "gridfs.fileid";
         }
         /**
          * The ObjectId of the file.
@@ -944,10 +944,10 @@ public interface GridFsEndpointBuilderFactory {
          * 
          * Group: producer
          * 
-         * @return the name of the header {@code GridFsObjectId}.
+         * @return the name of the header {@code gridfs.objectid}.
          */
-        public String gridFsObjectId() {
-            return "CamelGridFsObjectId";
+        public String gridfsObjectid() {
+            return "gridfs.objectid";
         }
     }
     static GridFsEndpointBuilder endpointBuilder(String componentName, String path) {
